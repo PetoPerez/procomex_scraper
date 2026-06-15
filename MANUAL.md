@@ -17,15 +17,75 @@ imágenes** automáticamente. Al final te entrega:
 
 ---
 
-## 2. Antes de empezar (una sola vez)
+## 2. Instalar Docker (una sola vez)
 
-Necesitas tener instalado **Docker Desktop** en la computadora.
+El programa funciona con una herramienta gratuita llamada **Docker**. Solo se
+instala **una vez**. Busca abajo tu sistema operativo y copia/pega los comandos en
+la **Terminal**.
 
-- Si ya lo tienes, ábrelo y espera a que diga que está corriendo (el ícono de la
-  ballena deja de moverse).
-- Si no lo tienes, pídele a la persona de sistemas que lo instale. Es gratis.
+> ¿Cómo abrir la Terminal?
+> - **Windows**: menú Inicio → escribe `PowerShell` → ábrelo.
+> - **macOS**: `Cmd + Espacio` → escribe `Terminal` → Enter.
+> - **Linux**: `Ctrl + Alt + T`.
 
-> Solo tienes que hacer esto una vez. Una vez instalado, ya no se vuelve a tocar.
+### Windows
+
+1. En PowerShell, instala Docker Desktop con:
+
+   ```
+   winget install -e --id Docker.DockerDesktop
+   ```
+
+2. Cuando termine, **reinicia la computadora**.
+3. Abre **Docker Desktop** desde el menú Inicio y espera a que el ícono de la
+   ballena (abajo a la derecha) deje de moverse: eso significa que ya está listo.
+
+### macOS
+
+1. Si no tienes Homebrew (un instalador), pégalo primero:
+
+   ```
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+2. Instala Docker Desktop:
+
+   ```
+   brew install --cask docker
+   ```
+
+3. Abre **Docker** desde Aplicaciones y espera a que el ícono de la ballena
+   (arriba a la derecha) deje de moverse.
+
+### Linux (Ubuntu / Debian y similares)
+
+1. Instala Docker con el script oficial:
+
+   ```
+   curl -fsSL https://get.docker.com | sh
+   ```
+
+2. Da permiso a tu usuario para usar Docker sin escribir `sudo` cada vez:
+
+   ```
+   sudo usermod -aG docker $USER
+   ```
+
+3. **Cierra sesión y vuelve a entrar** (o reinicia) para que el permiso tome efecto.
+
+### Comprobar que quedó bien (cualquier sistema)
+
+Escribe esto en la Terminal:
+
+```
+docker --version
+```
+
+Si responde con un número de versión (por ejemplo `Docker version 29.x`), ¡quedó
+instalado! Si da error, revisa que Docker esté abierto/corriendo y vuelve a
+intentar.
+
+> Esto solo se hace una vez. Después ya no se vuelve a tocar.
 
 ---
 
@@ -72,10 +132,12 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
 1. Abre la aplicación **Terminal** (en Windows: "Símbolo del sistema" o
    "PowerShell"; en Mac: "Terminal").
 2. Entra a la carpeta del programa. Escribe `cd ` (con un espacio), arrastra la
-   carpeta del programa hasta la ventana y presiona **Enter**. Ejemplo:
+   carpeta del programa desde el explorador de archivos hasta la ventana de la
+   Terminal y presiona **Enter**. Se verá parecido a esto (la ruta será la de
+   **tu** computadora, no esta):
 
    ```
-   cd /home/peto/procomex_scraper
+   cd ruta/a/procomex_scraper
    ```
 
 3. **Solo la primera vez** (o cuando te avisen que hubo cambios), prepara el
