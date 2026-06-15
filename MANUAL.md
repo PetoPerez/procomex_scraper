@@ -89,7 +89,81 @@ intentar.
 
 ---
 
-## 3. Las dos carpetas importantes
+## 3. Descargar el programa (una sola vez)
+
+El código del programa vive en internet (en GitHub). Para traerlo a tu computadora
+se usa otra herramienta gratuita llamada **Git**.
+
+### Paso A — Instalar Git
+
+Abre la **Terminal** (igual que en el punto 2) y pega el comando de tu sistema:
+
+- **Windows**:
+
+  ```
+  winget install -e --id Git.Git
+  ```
+
+  Después **cierra y vuelve a abrir** la Terminal.
+
+- **macOS**:
+
+  ```
+  brew install git
+  ```
+
+- **Linux (Ubuntu / Debian y similares)**:
+
+  ```
+  sudo apt update && sudo apt install -y git
+  ```
+
+Comprueba que quedó instalado:
+
+```
+git --version
+```
+
+Si responde con un número de versión, ¡listo!
+
+### Paso B — Descargar el programa
+
+1. Colócate en la carpeta donde quieras guardar el programa (por ejemplo, tus
+   Documentos):
+
+   ```
+   cd ruta/donde/lo/quieras/guardar
+   ```
+
+2. Descarga el programa con:
+
+   ```
+   git clone https://github.com/PetoPerez/procomex_scraper.git
+   ```
+
+   Esto crea una carpeta nueva llamada **`procomex_scraper`** con todo dentro.
+
+3. Entra a esa carpeta:
+
+   ```
+   cd procomex_scraper
+   ```
+
+> Esto solo se hace **una vez**. La carpeta queda en tu computadora.
+
+### Paso C — Actualizar el programa más adelante
+
+Cuando te avisen que hay una versión nueva, **no** hay que descargar todo otra vez.
+Solo entra a la carpeta del programa y pide los últimos cambios:
+
+```
+cd ruta/a/procomex_scraper
+git pull
+```
+
+---
+
+## 4. Las dos carpetas importantes
 
 Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
 
@@ -100,7 +174,7 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
 
 ---
 
-## 4. Preparar la lista de productos
+## 5. Preparar la lista de productos
 
 1. Dentro de la carpeta `entrada/` hay un archivo llamado **`input.csv`**.
 2. Ábrelo con **Excel** (o el Bloc de notas).
@@ -127,11 +201,12 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
 
 ---
 
-## 5. Ejecutar el programa
+## 6. Ejecutar el programa
 
 1. Abre la aplicación **Terminal** (en Windows: "Símbolo del sistema" o
    "PowerShell"; en Mac: "Terminal").
-2. Entra a la carpeta del programa. Escribe `cd ` (con un espacio), arrastra la
+2. Entra a la carpeta del programa (la que descargaste en el punto 3). Escribe
+   `cd ` (con un espacio), arrastra la
    carpeta del programa desde el explorador de archivos hasta la ventana de la
    Terminal y presiona **Enter**. Se verá parecido a esto (la ruta será la de
    **tu** computadora, no esta):
@@ -160,7 +235,7 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
 
 ---
 
-## 6. Ver los resultados
+## 7. Ver los resultados
 
 Abre la carpeta `salida/`. Vas a encontrar:
 
@@ -177,7 +252,7 @@ Abre la carpeta `salida/`. Vas a encontrar:
 
 ---
 
-## 7. Volver a buscar un producto (forzar)
+## 8. Volver a buscar un producto (forzar)
 
 El programa es inteligente: si un producto **ya lo buscó antes**, no lo vuelve a
 buscar para no perder tiempo. Si ejecutas y aparece el mensaje
@@ -196,23 +271,35 @@ tengas"*.
 
 ---
 
-## 8. Problemas comunes
+## 9. Problemas comunes
 
 | Problema                                  | Solución                                                                 |
 |-------------------------------------------|--------------------------------------------------------------------------|
-| "No hay SKUs pendientes"                  | Ya estaban hechos. Usa `--force` para repetirlos (ver punto 7).          |
+| "No hay SKUs pendientes"                  | Ya estaban hechos. Usa `--force` para repetirlos (ver punto 8).          |
 | Sale un error que menciona `docker`       | Asegúrate de que **Docker Desktop esté abierto** y corriendo.           |
+| `git: command not found`                  | Falta instalar Git (ver punto 3, Paso A).                               |
 | `estatus` dice `no_encontrado`            | Revisa que el `sku` y la `marca` estén bien escritos en `input.csv`.    |
 | No aparecen imágenes nuevas               | Confirma que guardaste `input.csv` como CSV y que estás en la carpeta correcta. |
 
 ---
 
-## 9. Resumen rápido (chuleta)
+## 10. Resumen rápido (chuleta)
+
+**Instalación (una sola vez):**
 
 ```
-1. Edita la lista:     entrada/input.csv  (y guárdala)
-2. Abre la Terminal y entra a la carpeta del programa
-3. Ejecuta:            docker compose run --rm scraper
-   (o para repetir todo:  docker compose run --rm scraper --force)
-4. Recoge resultados:  carpeta salida/
+1. Instala Docker      (ver punto 2)
+2. Instala Git         (ver punto 3, Paso A)
+3. Descarga el código: git clone https://github.com/PetoPerez/procomex_scraper.git
+```
+
+**Uso de cada día:**
+
+```
+1. Entra a la carpeta:  cd ruta/a/procomex_scraper
+2. (opcional) Actualiza: git pull
+3. Edita la lista:       entrada/input.csv  (y guárdala)
+4. Ejecuta:              docker compose run --rm scraper
+   (o para repetir todo:   docker compose run --rm scraper --force)
+5. Recoge resultados:    carpeta salida/
 ```
