@@ -1,0 +1,156 @@
+# Manual de usuario — Buscador de imágenes Procomex
+
+Esta guía explica **paso a paso** cómo usar el programa que busca y descarga
+imágenes de productos de ferretería. No necesitas saber programar. Solo hay que
+copiar y pegar unas líneas.
+
+---
+
+## 1. ¿Qué hace este programa?
+
+Tú le das una **lista de productos** (un archivo de Excel/CSV) y el programa entra
+a las páginas oficiales de los fabricantes, busca cada producto y **descarga sus
+imágenes** automáticamente. Al final te entrega:
+
+- Las **imágenes** de cada producto (archivos `.jpg`).
+- Un **reporte** que dice si encontró o no cada producto.
+
+---
+
+## 2. Antes de empezar (una sola vez)
+
+Necesitas tener instalado **Docker Desktop** en la computadora.
+
+- Si ya lo tienes, ábrelo y espera a que diga que está corriendo (el ícono de la
+  ballena deja de moverse).
+- Si no lo tienes, pídele a la persona de sistemas que lo instale. Es gratis.
+
+> Solo tienes que hacer esto una vez. Una vez instalado, ya no se vuelve a tocar.
+
+---
+
+## 3. Las dos carpetas importantes
+
+Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
+
+| Carpeta    | ¿Para qué sirve?                                                |
+|------------|----------------------------------------------------------------|
+| `entrada/` | Aquí **tú pones** la lista de productos a buscar.              |
+| `salida/`  | Aquí el programa **te deja** las imágenes y el reporte final. |
+
+---
+
+## 4. Preparar la lista de productos
+
+1. Dentro de la carpeta `entrada/` hay un archivo llamado **`input.csv`**.
+2. Ábrelo con **Excel** (o el Bloc de notas).
+3. Llénalo con tus productos. La primera fila son los títulos y **no se cambia**:
+
+   ```
+   sku,marca,descripcion,prioridad
+   PFR01,surtek,PINZA PARA ANILLOS DE RETENCIÓN,1
+   PFR02,surtek,PINZA PARA ANILLOS DE RETENCIÓN,1
+   ```
+
+   - **sku**: el código del producto. *(obligatorio)*
+   - **marca**: la marca del producto, en minúsculas. *(obligatorio)*
+   - **descripcion**: el nombre del producto. *(opcional, pero ayuda a encontrarlo)*
+   - **prioridad**: un número. *(opcional)*
+
+   Marcas válidas: `truper`, `foy`, `foset`, `urrea`, `surtek`, `coflex`,
+   `valmex`, `rugo`, `polimex`.
+
+4. **Guarda** el archivo. En Excel, al guardar elige el formato
+   **"CSV (delimitado por comas)"**.
+
+> Consejo: pon un producto por renglón. Puedes poner cuantos quieras.
+
+---
+
+## 5. Ejecutar el programa
+
+1. Abre la aplicación **Terminal** (en Windows: "Símbolo del sistema" o
+   "PowerShell"; en Mac: "Terminal").
+2. Entra a la carpeta del programa. Escribe `cd ` (con un espacio), arrastra la
+   carpeta del programa hasta la ventana y presiona **Enter**. Ejemplo:
+
+   ```
+   cd /home/peto/procomex_scraper
+   ```
+
+3. **Solo la primera vez** (o cuando te avisen que hubo cambios), prepara el
+   programa con:
+
+   ```
+   docker compose build
+   ```
+
+   Espera a que termine (puede tardar unos minutos la primera vez).
+
+4. Para buscar las imágenes, escribe:
+
+   ```
+   docker compose run --rm scraper
+   ```
+
+5. Verás varios renglones apareciendo: es el programa trabajando. Cuando vuelve a
+   aparecer la línea para escribir, **ya terminó**.
+
+---
+
+## 6. Ver los resultados
+
+Abre la carpeta `salida/`. Vas a encontrar:
+
+- **Las imágenes**, nombradas con el código del producto. Por ejemplo:
+  - `PFR01_1.jpg` (primera imagen del producto PFR01)
+  - `PFR01_2.jpg` (segunda imagen del producto PFR01)
+- **El reporte `resultados.csv`** (ábrelo con Excel). La columna **`estatus`** te dice cómo salió cada producto:
+
+  | estatus        | Significa                                          |
+  |----------------|----------------------------------------------------|
+  | `ok`           | Encontró las 2 imágenes. ✅                         |
+  | `parcial`      | Encontró solo 1 imagen.                            |
+  | `no_encontrado`| No encontró imágenes. Revisa la columna `error`.  |
+
+---
+
+## 7. Volver a buscar un producto (forzar)
+
+El programa es inteligente: si un producto **ya lo buscó antes**, no lo vuelve a
+buscar para no perder tiempo. Si ejecutas y aparece el mensaje
+**"No hay SKUs pendientes"**, significa que todos los productos de tu lista ya
+estaban hechos.
+
+¿Necesitas que busque **todo otra vez** (por ejemplo, porque corregiste la lista o
+quieres imágenes actualizadas)? Usa este comando en su lugar:
+
+```
+docker compose run --rm scraper --force
+```
+
+La palabra **`--force`** al final le dice: *"búscalos todos de nuevo, aunque ya los
+tengas"*.
+
+---
+
+## 8. Problemas comunes
+
+| Problema                                  | Solución                                                                 |
+|-------------------------------------------|--------------------------------------------------------------------------|
+| "No hay SKUs pendientes"                  | Ya estaban hechos. Usa `--force` para repetirlos (ver punto 7).          |
+| Sale un error que menciona `docker`       | Asegúrate de que **Docker Desktop esté abierto** y corriendo.           |
+| `estatus` dice `no_encontrado`            | Revisa que el `sku` y la `marca` estén bien escritos en `input.csv`.    |
+| No aparecen imágenes nuevas               | Confirma que guardaste `input.csv` como CSV y que estás en la carpeta correcta. |
+
+---
+
+## 9. Resumen rápido (chuleta)
+
+```
+1. Edita la lista:     entrada/input.csv  (y guárdala)
+2. Abre la Terminal y entra a la carpeta del programa
+3. Ejecuta:            docker compose run --rm scraper
+   (o para repetir todo:  docker compose run --rm scraper --force)
+4. Recoge resultados:  carpeta salida/
+```

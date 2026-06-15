@@ -1,0 +1,8 @@
+services:
+  scraper:
+    build: .
+    volumes:
+      - ./entrada:/app/entrada
+      - ./salida:/app/salida
+    environment:
+      - PYTHONUNBUFFERED=1

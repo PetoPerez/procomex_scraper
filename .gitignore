@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+.idea/
+.vscode/
+.DS_Store
+salida/*.jpg
+salida/resultados.csv
+salida/*.bak
