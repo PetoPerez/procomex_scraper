@@ -10,6 +10,7 @@ dependencies = [
     "httpx>=0.28",
     "beautifulsoup4>=4.13",
     "pillow>=10.0",
+    "pymupdf>=1.26",
     "playwright>=1.40",
     "python-dotenv>=1.0"
 ]

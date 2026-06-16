@@ -13,6 +13,7 @@ import httpx
 from adapters.truper import TruperAdapter
 from adapters.urrea import UrreaAdapter
 from adapters.tubin import TubinAdapter
+from adapters.pdf_catalog import FleximaticAdapter, SolverAdapter
 from adapters.generico import GenericoAdapter
 from core.csv_io import read_input_csv
 from core.downloader import AsyncDownloader
@@ -29,6 +30,8 @@ BRAND_ADAPTERS = {
     "surtek": UrreaAdapter,
     "futura": UrreaAdapter,
     "tubin": TubinAdapter,
+    "fleximatic": FleximaticAdapter,
+    "solver": SolverAdapter,
     "coflex": GenericoAdapter,
     "valmex": GenericoAdapter,
     "rugo": GenericoAdapter,

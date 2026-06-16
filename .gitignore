@@ -13,3 +13,4 @@ salida/resultados.csv
 salida/*.bak
 salida/.cache/
 .cache/
+entrada/*.pdf

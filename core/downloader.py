@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from urllib.parse import unquote, urlparse
 import httpx
 
 
@@ -9,6 +10,9 @@ class AsyncDownloader:
         self.client = client
 
     async def fetch(self, url: str) -> bytes:
+        if url.startswith("file://"):
+            # imágenes locales (p. ej. extraídas de un PDF en entrada/)
+            return Path(unquote(urlparse(url).path)).read_bytes()
         response = await self.client.get(url)
         response.raise_for_status()
         return response.content

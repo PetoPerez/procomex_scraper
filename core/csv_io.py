@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 REQUIRED_COLUMNS = {"sku", "marca"}
-SUPPORTED_BRANDS = {"truper", "foy", "foset", "urrea", "surtek", "futura", "tubin", "coflex", "valmex", "rugo", "polimex"}
+SUPPORTED_BRANDS = {"truper", "foy", "foset", "urrea", "surtek", "futura", "tubin", "fleximatic", "solver", "coflex", "valmex", "rugo", "polimex"}
 
 
 def read_input_csv(path: Path) -> pd.DataFrame:

@@ -192,12 +192,37 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
    - **prioridad**: un número. *(opcional)*
 
    Marcas válidas: `truper`, `foy`, `foset`, `urrea`, `surtek`, `futura`,
-   `tubin`, `coflex`, `valmex`, `rugo`, `polimex`.
+   `tubin`, `fleximatic`, `solver`, `coflex`, `valmex`, `rugo`, `polimex`.
 
    > Para la marca **`tubin`** la búsqueda se hace por la **descripción** (no por
    > el código), así que entre mejor escrita esté la `descripcion`, mejor la
    > coincidencia. Tubin entrega **una** imagen por producto (saldrá como
    > `parcial`, no es error).
+   >
+   > Para **`fleximatic`** y **`solver`** las imágenes salen de un **catálogo PDF**
+   > (ver punto 5.1). El `sku` debe ser el **código del catálogo** (ej. `2953`).
+   > Estas imágenes son del catálogo: una misma foto puede repetirse entre
+   > productos parecidos y la calidad es menor (saldrán como `parcial`).
+
+### 5.1 Marcas que usan catálogo PDF (`fleximatic`, `solver`)
+
+Algunas marcas no tienen página web; sus imágenes se sacan de su **catálogo PDF**:
+
+1. Consigue el PDF del catálogo de la marca.
+2. Cópialo dentro de la carpeta **`entrada/`**.
+3. **El nombre del archivo debe contener el nombre de la marca** para que el
+   programa sepa de cuál es. Ejemplos válidos:
+   - `Fleximatic_catalogo.pdf`  (contiene "flex")
+   - `Catalogo Solver 2025.pdf` (contiene "solver")
+4. En `input.csv`, pon esos productos con su `marca` y con el **código del
+   catálogo** en la columna `sku`. Ejemplo:
+
+   ```
+   sku,marca,descripcion,prioridad
+   2953,fleximatic,Cespol flexible tipo P,1
+   ```
+
+> La primera vez tarda un poco (lee el PDF completo); luego va más rápido.
 
 4. **Guarda** el archivo. En Excel, al guardar elige el formato
    **"CSV (delimitado por comas)"**.
