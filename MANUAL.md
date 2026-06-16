@@ -199,12 +199,13 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
    > coincidencia. Tubin entrega **una** imagen por producto (saldrá como
    > `parcial`, no es error).
    >
-   > Para **`fleximatic`** y **`solver`** las imágenes salen de un **catálogo PDF**
-   > (ver punto 5.1). El `sku` debe ser el **código del catálogo** (ej. `2953`).
-   > Estas imágenes son del catálogo: una misma foto puede repetirse entre
-   > productos parecidos y la calidad es menor (saldrán como `parcial`).
+   > Para **`fleximatic`**, **`solver`** y **`coflex`** las imágenes salen de un
+   > **catálogo PDF** (ver punto 5.1). El `sku` debe ser el **código del catálogo**
+   > (ej. `2953` en Fleximatic, `TF-100` en Coflex). Estas imágenes son del
+   > catálogo: una misma foto puede repetirse entre productos parecidos y la
+   > calidad es menor (saldrán como `parcial`).
 
-### 5.1 Marcas que usan catálogo PDF (`fleximatic`, `solver`)
+### 5.1 Marcas que usan catálogo PDF (`fleximatic`, `solver`, `coflex`)
 
 Algunas marcas no tienen página web; sus imágenes se sacan de su **catálogo PDF**:
 
@@ -214,6 +215,7 @@ Algunas marcas no tienen página web; sus imágenes se sacan de su **catálogo P
    programa sepa de cuál es. Ejemplos válidos:
    - `Fleximatic_catalogo.pdf`  (contiene "flex")
    - `Catalogo Solver 2025.pdf` (contiene "solver")
+   - `Coflex_CAT_MX2025.pdf`    (contiene "coflex")
 4. En `input.csv`, pon esos productos con su `marca` y con el **código del
    catálogo** en la columna `sku`. Ejemplo:
 

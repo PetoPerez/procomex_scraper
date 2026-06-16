@@ -105,3 +105,11 @@ class SolverAdapter(PdfCatalogAdapter):
     marca = "solver"
     code_regex = r"\d{3,4}"
     pdf_keyword = "solver"
+
+
+class CoflexAdapter(PdfCatalogAdapter):
+    dominio = "coflex (pdf)"
+    nombre = "Coflex"
+    marca = "coflex"
+    code_regex = r"[A-Z]{1,4}-[A-Z0-9]{2,7}"  # ej. TF-100, PH-220, P-B3011, DJ-D48A
+    pdf_keyword = "coflex"
