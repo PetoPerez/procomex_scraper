@@ -191,8 +191,13 @@ Dentro de la carpeta del programa hay dos carpetas que vas a usar siempre:
    - **descripcion**: el nombre del producto. *(opcional, pero ayuda a encontrarlo)*
    - **prioridad**: un número. *(opcional)*
 
-   Marcas válidas: `truper`, `foy`, `foset`, `urrea`, `surtek`, `coflex`,
-   `valmex`, `rugo`, `polimex`.
+   Marcas válidas: `truper`, `foy`, `foset`, `urrea`, `surtek`, `futura`,
+   `tubin`, `coflex`, `valmex`, `rugo`, `polimex`.
+
+   > Para la marca **`tubin`** la búsqueda se hace por la **descripción** (no por
+   > el código), así que entre mejor escrita esté la `descripcion`, mejor la
+   > coincidencia. Tubin entrega **una** imagen por producto (saldrá como
+   > `parcial`, no es error).
 
 4. **Guarda** el archivo. En Excel, al guardar elige el formato
    **"CSV (delimitado por comas)"**.

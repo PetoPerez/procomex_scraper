@@ -11,3 +11,5 @@ __pycache__/
 salida/*.jpg
 salida/resultados.csv
 salida/*.bak
+salida/.cache/
+.cache/
