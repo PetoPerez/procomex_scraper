@@ -39,10 +39,12 @@ BRAND_ADAPTERS = {
 }
 
 
-def get_adapter(brand: str, rate_limiters: dict[str, RateLimiter]) -> Any:
+def get_adapter(brand: str, rate_limiters: dict[str, RateLimiter]) -> Any | None:
+    """El adaptador de la marca, o None si no hay ninguno (la fila no revienta:
+    se reporta como 'sin_fuente' y la corrida continúa)."""
     adapter_cls = BRAND_ADAPTERS.get(brand)
     if not adapter_cls:
-        raise ValueError(f"Marca no soportada: {brand}")
+        return None
     domain = adapter_cls.dominio
     if domain not in rate_limiters:
         rate_limiters[domain] = RateLimiter(domain=domain)
@@ -100,11 +102,17 @@ async def process_item(
         "sku": sku,
         "marca": marca,
         "estatus": "no_encontrado",
-        "fuente": adapter.dominio,
+        "fuente": adapter.dominio if adapter else "",
         "imagen_1": "",
         "imagen_2": "",
         "error": "",
     }
+
+    if adapter is None:
+        result_row["estatus"] = "sin_fuente"
+        result_row["error"] = f"no hay adaptador para la marca '{marca}'"
+        resumable.append(result_row)
+        return
 
     async with semaphore:
         try:

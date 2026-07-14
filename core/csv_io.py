@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 import pandas as pd
 
@@ -35,18 +36,19 @@ def read_input_csv(path: Path) -> pd.DataFrame:
     df["descripcion"] = df.get("descripcion", "").astype(str).str.strip()
     df["prioridad"] = pd.to_numeric(df.get("prioridad", ""), errors="coerce").fillna(999).astype(int)
 
-    invalid_skus = df["sku"] == ""
-    invalid_brands = ~df["marca"].isin(SUPPORTED_BRANDS)
-    if invalid_skus.any() or invalid_brands.any():
-        rows = []
-        for index, row in df.loc[invalid_skus | invalid_brands].iterrows():
-            errors = []
-            if row["sku"] == "":
-                errors.append("sku vacío")
-            if row["marca"] not in SUPPORTED_BRANDS:
-                errors.append(f"marca desconocida '{row['marca']}'")
-            rows.append(f"fila {index + 2}: {'; '.join(errors)}")
-        raise ValueError("CSV inválido:\n" + "\n".join(rows))
+    # Una fila mala no debe tumbar la corrida entera: se marca y se sigue. Antes
+    # un solo SKU vacío o una marca fuera de la lista abortaba las miles de filas
+    # restantes con un ValueError.
+    df = df[df["sku"] != ""].copy()
+    if df.empty:
+        raise ValueError(f"'{path}' no tiene ninguna fila con SKU.")
+
+    unsupported = sorted(set(df.loc[~df["marca"].isin(SUPPORTED_BRANDS), "marca"]))
+    if unsupported:
+        logging.warning(
+            "Marcas sin adaptador (se procesarán y quedarán como 'sin_fuente'): %s",
+            ", ".join(unsupported),
+        )
 
     return df.sort_values(["prioridad", "sku"]).reset_index(drop=True)
 
