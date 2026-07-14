@@ -3,6 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 import pandas as pd
 
+from core.csv_io import read_csv_any_encoding
+
 
 class ResumableResults:
     COLUMNS = ["sku", "marca", "estatus", "fuente", "imagen_1", "imagen_2", "error"]
@@ -15,7 +17,7 @@ class ResumableResults:
 
     def load(self) -> None:
         if self.path.exists():
-            df = pd.read_csv(self.path, dtype=str).fillna("")
+            df = read_csv_any_encoding(self.path)
             for _, row in df.iterrows():
                 sku = str(row.get("sku", "")).strip()
                 if sku:
@@ -36,7 +38,7 @@ class ResumableResults:
         skus = {str(s).strip() for s in skus}
         self._skus_done -= skus
         if self.path.exists():
-            df = pd.read_csv(self.path, dtype=str).fillna("")
+            df = read_csv_any_encoding(self.path)
             df = df[~df["sku"].astype(str).str.strip().isin(skus)]
             df.to_csv(self.path, index=False, encoding="utf-8")
 

@@ -6,9 +6,24 @@ import pandas as pd
 REQUIRED_COLUMNS = {"sku", "marca"}
 SUPPORTED_BRANDS = {"truper", "foy", "foset", "urrea", "surtek", "futura", "tubin", "fleximatic", "solver", "coflex", "valmex", "rugo", "polimex"}
 
+# Excel en Windows suele exportar CSV en cp1252, no en UTF-8.
+ENCODINGS = ("utf-8-sig", "cp1252", "latin-1")
+
+
+def read_csv_any_encoding(path: Path) -> pd.DataFrame:
+    for encoding in ENCODINGS:
+        try:
+            return pd.read_csv(path, dtype=str, encoding=encoding).fillna("")
+        except UnicodeDecodeError:
+            continue
+    raise ValueError(
+        f"No se pudo leer '{path}': codificación no reconocida. "
+        "Guarda el archivo como CSV UTF-8 desde Excel."
+    )
+
 
 def read_input_csv(path: Path) -> pd.DataFrame:
-    df = pd.read_csv(path, dtype=str).fillna("")
+    df = read_csv_any_encoding(path)
     missing = REQUIRED_COLUMNS - set(df.columns.str.lower())
     if missing:
         raise ValueError(f"Faltan columnas obligatorias en el CSV: {sorted(missing)}")
@@ -38,7 +53,7 @@ def read_input_csv(path: Path) -> pd.DataFrame:
 
 def load_or_create_results(path: Path) -> pd.DataFrame:
     if path.exists():
-        return pd.read_csv(path, dtype=str).fillna("")
+        return read_csv_any_encoding(path)
     columns = ["sku", "marca", "estatus", "fuente", "imagen_1", "imagen_2", "error"]
     return pd.DataFrame(columns=columns)
 
