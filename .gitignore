@@ -13,4 +13,6 @@ salida/resultados.csv
 salida/*.bak
 salida/.cache/
 .cache/
-entrada/*.pdf
+# Nota: los catálogos PDF de entrada/ SÍ se versionan a propósito, para que el
+# cliente los reciba con el clone. Antes estaban ignorados con `entrada/*.pdf` y
+# por eso al cliente le llegaba entrada/ sin catálogos y no obtenía imágenes.
